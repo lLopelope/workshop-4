@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import { REGISTRY_PORT } from "../config";
-import { generateRsaKeyPair, exportPrvKey } from "../crypto";
 
 export type Node = { nodeId: number; pubKey: string; privateKey?: string };
 
@@ -31,10 +30,13 @@ export async function launchRegistry() {
       return res.status(400).json({ message: `Node ${nodeId} is already registered.` });
     }
 
-    // Add the node to the registered nodes array
-    registeredNodes.push({ nodeId, pubKey });
 
-     return res.status(201).json({ message: `Node ${nodeId} successfully registered.` });
+    // Add the node to the registered nodes array
+    registeredNodes.push({ nodeId, pubKey});
+    const nodeRegistry: GetNodeRegistryBody = { nodes: registeredNodes };
+    res.json(nodeRegistry);
+
+    return res.status(201).json({ message: `Node ${nodeId} successfully registered.` });
   });
 
   _registry.get('/getNodeRegistry', (req, res) => {
@@ -43,8 +45,6 @@ export async function launchRegistry() {
   });
 
   
-
-
 
   // TODO implement the status route
    _registry.get("/status", (req, res) => { res.send('live');});
