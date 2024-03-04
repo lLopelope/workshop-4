@@ -1,5 +1,9 @@
 import { webcrypto } from "crypto";
 
+// #############
+// ### Utils ###
+// #############
+
 // Function to convert ArrayBuffer to Base64 string
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
   return Buffer.from(buffer).toString("base64");
@@ -12,7 +16,6 @@ function base64ToArrayBuffer(base64: string): ArrayBuffer {
 }
 
 // Generates a pair of private / public RSA keys
-
 type GenerateRsaKeyPair = {
   publicKey: webcrypto.CryptoKey;
   privateKey: webcrypto.CryptoKey;
@@ -117,7 +120,6 @@ export async function rsaDecrypt(
   return new TextDecoder().decode(decryptedData);
 }
 
-// Generates a random symmetric key
 // Generates a random symmetric key
 export async function createRandomSymmetricKey(): Promise<webcrypto.CryptoKey> {
   const key = await webcrypto.subtle.generateKey(
